@@ -17,10 +17,17 @@ int main(int argc, int* argv[])
 		char a;
 
 		ifstream f2("1.txt");
-		while (f2 >> a) {
-			k++; //fffff
+		int number, count(0);
+		while (!f2.eof())
+		{
+			f2 >> number;
+			cout << number << " ";
+			count++;
 		}
+		cout << "\ncount: " << count;
 		f2.close();
+
+		k = count;
 
 		int* mass = new int[k];
 
