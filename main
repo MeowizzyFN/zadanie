@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <locale>
+
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	setlocale(LC_ALL, "RUSSIAN");
+	
+	for (int i = 1; argv[i]; i++) {
+			 {
+			cout << "Its your help" << endl;
+			cout << "Чтобы использовать программу введите в строку параметры в виде : ИмяПрограммы ВходнойФайл [ВыходнойФайл] [/descending] [/bubble]  " << endl << endl;;
+			cout << "Доступные команды :" << endl;
+			cout << "/descending - указывает, что сортировка должна проводиться по убыванию. " << endl;	
+			cout << "/bubble — указывает, что сортировка производится по алгоритму пузырька.  " << endl;
+			cout << "/? - помощь. " << endl;
+		}
+		return 0;
+	}
+}
+
+ 
