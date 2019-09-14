@@ -1,0 +1,83 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <locale>
+#include <conio.h>
+
+
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	setlocale(LC_ALL, "RUSSIAN");
+
+	int s = 0;
+	int k = 0;
+	char a;
+	int kol;
+
+	for (int i = 0; argv[i]; i++) {
+	
+
+		string S1;
+		char a[100];
+		S1 = argv[1];
+		strcpy(a, S1.c_str());
+
+		if (strcmp(argv[i], a) == 0) {
+			cout << a;
+			ifstream f2(a);
+			int number, count(0);
+			while (!f2.eof())
+			{
+				f2 >> number;
+				count++;
+			}
+			f2.close();
+
+			k = count;
+
+			int* mass = new int[k];
+
+			ifstream f("1.txt");
+
+			if (!f.is_open()) {
+				cout << "Ошибка открытия файла!" << endl;
+				return 1;
+			}
+			else {
+				cout << "Файл открыт." << endl;
+			}
+
+			for (int i = 0; i < k; i++) {
+				f >> mass[i];
+			}
+
+			for (int i = 0; i < k; i++) {
+				cout << mass[i] << " ";
+			}
+			cout << endl;
+		}
+
+
+
+
+
+		if (strcmp(argv[i], "/?") == 0) {
+			cout << "Its your help" << endl;
+			cout << "Чтобы использовать программу введите в строку параметры в виде : ИмяПрограммы ВходнойФайл [ВыходнойФайл] [/descending] [/bubble]  " << endl << endl;;
+			cout << "Доступные команды :" << endl;
+			cout << "/descending - указывает, что сортировка должна проводиться по убыванию. " << endl;
+			cout << "/bubble — указывает, что сортировка производится по алгоритму пузырька.  " << endl;
+			cout << "/? - помощь. " << endl;
+		}
+
+
+	}
+	return 0;
+}
+
