@@ -1,0 +1,103 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <locale>
+#include <conio.h>
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+
+	setlocale(LC_ALL, "RUSSIAN");
+
+	int s = 0;
+	int k = 0;
+	int tmp;
+
+	for (int i = 0; argv[i]; i++) {
+
+
+		string S1;
+		char a[100];
+		S1 = argv[1];
+		strcpy(a, S1.c_str());
+
+		string S2;
+		char b[100];
+		S2 = argv[2];
+		strcpy(b, S2.c_str());
+
+		if (strcmp(argv[i], a) == 0) {
+			ifstream f2(a);
+			int number, count(0);
+			while (!f2.eof())
+			{
+				f2 >> number;
+				count++;
+			}
+			f2.close();
+
+			k = count;
+
+			int* mass = new int[k];
+
+			ifstream f(a);
+
+			if (!f.is_open()) {
+				cout << "Ошибка открытия файла!" << endl;
+				return 1;
+			}
+			else {
+				cout << "Файл открыт." << endl;
+			}
+
+			for (int i = 0; i < k; i++) {
+				f >> mass[i];
+			}
+
+			if (strcmp(argv[3], "/gnom") == 0) {
+				i = 0;
+				while (i < k) {
+					if (i == 0 || mass[i - 1] <= mass[i])
+						++i;
+					else {
+						tmp = mass[i];
+						mass[i] = mass[i - 1];
+						mass[i - 1] = tmp;
+						--i;
+					}
+				}
+				ofstream f2(b);
+				cout << "zashol";
+				for (int i = 0; i < k; i++) {
+					f2 << mass[i] << " ";
+				}
+				f2.close();
+			}
+			if (strcmp(argv[4], "/gnom") == 0) {
+				i = 0;
+				while (i < k) {
+					if (i == 0 || mass[i - 1] <= mass[i])
+						++i;
+					else {
+						tmp = mass[i];
+						mass[i] = mass[i - 1];
+						mass[i - 1] = tmp;
+						--i;
+					}
+				}
+				cout << "zashol";
+				ofstream f2(b);
+
+				for (int i = k - 1; i >= 0; --i) {
+					f2 << mass[i] << " ";
+				}
+				f2.close();
+			}
+		}
+	}
+	return 0;
+}
