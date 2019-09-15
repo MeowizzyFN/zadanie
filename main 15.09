@@ -15,8 +15,7 @@ int main(int argc, char* argv[]) {
 
 	int s = 0;
 	int k = 0;
-	char a;
-	int kol, tmp;
+	int tmp;
 
 	for (int i = 0; argv[i]; i++) {
 
@@ -30,8 +29,6 @@ int main(int argc, char* argv[]) {
 		char b[100];
 		S2 = argv[2];
 		strcpy(b, S2.c_str());
-
-
 
 		if (strcmp(argv[i], a) == 0) {
 			ifstream f2(a);
@@ -47,7 +44,7 @@ int main(int argc, char* argv[]) {
 
 			int* mass = new int[k];
 
-			ifstream f("1.txt");
+			ifstream f(a);
 
 			if (!f.is_open()) {
 				cout << "Ошибка открытия файла!" << endl;
@@ -61,7 +58,7 @@ int main(int argc, char* argv[]) {
 				f >> mass[i];
 			}
 
-			if (strcmp(argv[4], "/gnom") || strcmp(argv[3], "/gnom") == 0) {
+			if (strcmp(argv[3], "/gnom") == 0) {
 				i = 0;
 				while (i < k) {
 					if (i == 0 || mass[i - 1] <= mass[i])
@@ -74,8 +71,19 @@ int main(int argc, char* argv[]) {
 					}
 				}
 			}
-
-
+			if (strcmp(argv[4], "/gnom") == 0) {
+				i = 0;
+				while (i < k) {
+					if (i == 0 || mass[i - 1] <= mass[i])
+						++i;
+					else {
+						tmp = mass[i];
+						mass[i] = mass[i - 1];
+						mass[i - 1] = tmp;
+						--i;
+					}
+				}
+			}
 
 			if (strcmp(argv[3], "/descending") == 0) {
 				cout << "zashol";
