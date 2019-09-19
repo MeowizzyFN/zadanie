@@ -1,0 +1,154 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <locale>
+#include <conio.h>
+
+using namespace std;
+
+void sortGnom(char a[], char b[], char* buffer, int k) {
+	int tmp;
+
+	int i = 0;
+	while (i < k) {
+
+		if (i == 0 || buffer[i - 1] <= buffer[i])
+			++i;
+		else {
+			tmp = buffer[i];
+			buffer[i] = buffer[i - 1];
+			buffer[i - 1] = tmp;
+			--i;
+		}
+	}
+}
+
+void help(char* argv[]) {
+	cout << "Its your help" << endl;
+	cout << "Чтобы использовать программу введите в строку параметры в виде : ИмяПрограммы ВходнойФайл [ВыходнойФайл] [/descending] [/bubble]  " << endl << endl;;
+	cout << "Доступные команды :" << endl;
+	cout << "/descending - указывает, что сортировка должна проводиться по убыванию. " << endl;
+	cout << "/bubble — указывает, что сортировка производится по алгоритму пузырька.  " << endl;
+	cout << "/? - помощь. " << endl;
+}
+
+void change() {
+
+}
+
+int main(int argc, char* argv[]) {
+
+	setlocale(LC_ALL, "RUSSIAN");
+
+	int s = 0;
+	int k = 0;
+	int tmp;
+
+	for (int i = 0; argv[i]; i++) {
+
+		if (strcmp(argv[1], "/?") == 0) {
+			help(argv);
+		}
+
+		string S1;
+		char a[100];
+		S1 = argv[1];
+		strcpy(a, S1.c_str());
+
+		string S2;
+		char b[100];
+		S2 = argv[2];
+		strcpy(b, S2.c_str());
+
+		if (strcmp(argv[i], a) == 0) {
+
+			ifstream f2(a);
+			if (!f2.is_open()) {
+				cout << "Ошибка открытия файла!" << endl;
+				return 0;
+			}
+			else {
+				cout << "Файл открыт." << endl;
+			}
+
+			char number;
+			int count(0);
+			while (!f2.eof())
+			{
+				f2 >> number;
+				count++;
+			}
+			f2.close();
+
+			k = count;
+
+			char* buffer = new char[k];
+			buffer[k] = 0;
+
+			ifstream f(a);
+			f.read(buffer, k);
+
+			if (strcmp(argv[3], "/gnom") == 0 || (strcmp(argv[4], "/gnom")) == 0) {
+				sortGnom(a, b, buffer, k);
+			}
+
+			if (strcmp(argv[3], "/descending") == 0) {
+				ifstream test(b);
+				if (test.is_open())
+				{
+					cout << "Файл уже существует, перезаписать? y/n" << endl;
+					char c;
+					cin >> c;
+					if (c == 'y') {
+
+						ofstream f2(b);
+						for (int i = k - 1; i >= 0; --i) {
+							f2 << buffer[i];
+						}
+					}
+					f2.close();
+				}
+				else
+				{
+					exit;
+				}
+				ofstream f2(b);
+				for (int i = k - 1; i >= 0; --i) {
+					f2 << buffer[i];
+				}
+				f2.close();
+			}
+			else
+			{
+				ifstream test(b);
+				if (test.is_open())
+				{
+					cout << "Файл уже существует, перезаписать? y/n" << endl;
+					char c;
+					cin >> c;
+					if (c == 'y') {
+
+						ofstream f2(b);
+						for (int i = 0; i < k; i++) {
+							f2 << buffer[i];
+						}
+					}
+					f2.close();
+				}
+				else
+				{
+					exit;
+				}
+				ofstream f2(b);
+				for (int i = 0; i < k; i++) {
+					f2 << buffer[i];
+				}
+				f2.close();
+			}
+		}
+	}
+	return 0;
+}
