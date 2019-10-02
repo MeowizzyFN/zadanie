@@ -1,0 +1,335 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <fstream>
+#include <locale>
+#include <conio.h>
+
+using namespace std;
+
+void sortGnom(char a[], char b[], char* buffer, int k) {
+	int tmp;
+
+	int i = 0;
+	while (i < k) {
+
+		if (i == 0 || buffer[i - 1] <= buffer[i])
+			++i;
+		else {
+			tmp = buffer[i];
+			buffer[i] = buffer[i - 1];
+			buffer[i - 1] = tmp;
+			--i;
+		}
+	}
+}
+
+void Insert(char a[], char b[], char* buffer, int k) {
+	int counter = 0;
+	for (int i = 1; i < k; i++) {
+		for (int j = i; j > 0 && buffer[j - 1] > buffer[j]; j--) {
+			counter++;
+			int tmp = buffer[j - 1];
+			buffer[j - 1] = buffer[j];
+			buffer[j] = tmp;
+		}
+	}
+}
+
+void help(char* argv[]) {
+	cout << "Its your help" << endl;
+	cout << "Чтобы использовать программу введите в строку параметры в виде : ИмяПрограммы ВходнойФайл [ВыходнойФайл] [/descending] [/insert]  " << endl << endl;;
+	cout << "Автоматическая сортировка - Гномья";
+	cout << "Доступные команды :" << endl;
+	cout << "/descending - указывает, что сортировка должна проводиться по убыванию. " << endl;
+	cout << "/insert — указывает, что сортировка производится по алгоритму пузырька.  " << endl;
+	cout << "/? - помощь. " << endl;
+}
+
+void descending(char* argv[], char* buffer, int k, char b[]) {
+	if (strcmp(argv[3], "/descending") == 0) {
+		ifstream test(b);
+		if (test.is_open())
+		{
+			cout << "Файл уже существует, перезаписать? y/n" << endl;
+			char c;
+			cin >> c;
+			if (c == 'y') {
+				ofstream f2(b);
+				for (int i = k - 1; i >= 0; --i) {
+					f2 << buffer[i];
+				}
+				f2.close();
+			}
+		}
+		else
+		{
+			exit;
+		}
+		ofstream f2(b);
+		for (int i = k - 1; i >= 0; --i) {
+			f2 << buffer[i];
+		}
+		f2.close();
+	}
+}
+
+void out(char* argv[], char* buffer, int k, char b[]) {
+	ifstream test(b);
+	if (test.is_open())
+	{
+		cout << "Файл уже существует, перезаписать? y/n" << endl;
+		char c;
+		cin >> c;
+		if (c == 'y') {
+
+			ofstream f2(b);
+			for (int i = 0; i < k; i++) {
+				f2 << buffer[i];
+			}
+			f2.close();
+		}
+	}
+	else
+	{
+		exit;
+	}
+	ofstream f2(b);
+	for (int i = 0; i < k; i++) {
+		f2 << buffer[i];
+	}
+	f2.close();
+}
+
+void reout(char* argv[], char* buffer, int k, char qq[]) {
+	ifstream test(qq);
+	if (test.is_open())
+	{
+		cout << "Файл уже существует, перезаписать? y/n" << endl;
+		char c;
+		cin >> c;
+		if (c == 'y') {
+
+			ofstream f2(qq);
+			for (int i = 0; i < k; i++) {
+				f2 << buffer[i];
+			}
+			f2.close();
+		}
+	}
+	else
+	{
+		exit;
+	}
+	ofstream f2(qq);
+	for (int i = 0; i < k; i++) {
+		f2 << buffer[i];
+	}
+	f2.close();
+}
+
+void desc(char* argv[], char* buffer, int k, char qq[]) {
+	ifstream test(qq);
+	if (test.is_open())
+	{
+		cout << "Файл уже существует, перезаписать? y/n" << endl;
+		char c;
+		cin >> c;
+		if (c == 'y') {
+
+			ofstream f2(qq);
+			for (int i = k - 1; i >= 0; --i) {
+				f2 << buffer[i];
+			}
+			f2.close();
+		}
+	}
+	else
+	{
+		exit;
+	}
+	ofstream f2(qq);
+	for (int i = k - 1; i >= 0; --i) {
+		f2 << buffer[i];
+	}
+	f2.close();
+}
+
+int main(int argc, char* argv[]) {
+
+	setlocale(LC_ALL, "RUSSIAN");
+
+	int s = 0;
+	int k = 0;
+	int tmp;
+
+	for (int i = 0; argv[i]; i++) {
+
+		if (argc == 1) {
+			char rte;
+			cout << "Ошибка ввода параметров! Прочтите справку";
+			cout << "Хотите прочесть справку? y/n" << endl;
+			cin >> rte;
+			if (rte == 'y') {
+				help(argv);
+				return 0;
+			}
+			else
+				return 0;
+		}
+
+		if (strcmp(argv[1], "/?") == 0) {
+			help(argv);
+			return 0;
+		}
+		if (argc == 2) {
+			string S1, S66, gstr;
+			char qq[100];
+			char a[100];
+			S1 = argv[1];
+			S66 = S1;
+			S66 = S66.erase(S66.find_last_of('.') + 1);
+			gstr = S66 + "sort";
+			strcpy(qq, gstr.c_str());
+			strcpy(a, S1.c_str());
+
+			ifstream f2(a);
+			if (!f2.is_open()) {
+				cout << "Ошибка открытия файла!" << endl;
+				return 0;
+			}
+			else {
+				cout << "Файл открыт." << endl;
+			}
+
+			char number;
+			int count(0);
+			while (!f2.eof())
+			{
+				f2 >> number;
+				count++;
+			}
+			f2.close();
+
+			k = count;
+
+			char* buffer = new char[10000];
+			buffer[k] = 0;
+
+			ifstream f(a);
+			f.read(buffer, k);
+			int tmp;
+
+			int i = 0;
+			while (i < k) {
+
+				if (i == 0 || buffer[i - 1] <= buffer[i])
+					++i;
+				else {
+					tmp = buffer[i];
+					buffer[i] = buffer[i - 1];
+					buffer[i - 1] = tmp;
+					--i;
+				}
+			}
+			reout(argv, buffer, k, qq);
+		}
+		
+		string S1, S66, gstr;
+		char qq[100];
+		char a[100];
+		S1 = argv[1];
+		S66 = S1;
+		S66 = S66.erase(S66.find_last_of('.') + 1);
+		gstr = S66 + "sort";
+		strcpy(qq, gstr.c_str());
+		strcpy(a, S1.c_str());
+
+		string S2;
+		char b[100];
+		S2 = argv[2];
+		strcpy(b, S2.c_str());
+	
+		char name[100];
+		string nameP;
+		nameP = argv[0];
+		strcpy(name, nameP.c_str());
+	
+		
+			ifstream f2(a);
+			if (!f2.is_open()) {
+				cout << "Ошибка открытия файла!" << endl;
+				return 0;
+			}
+			else {
+				cout << "Файл открыт." << endl;
+			}
+
+			char number;
+			int count(0);
+			while (!f2.eof())
+			{
+				f2 >> number;
+				count++;
+			}
+			f2.close();
+
+			k = count;
+
+			char* buffer = new char[10000];
+			buffer[k] = 0;
+
+			ifstream f(a);
+			f.read(buffer, k);
+
+			if (argc == 3) {
+		
+				if (strcmp(argv[2], "/descending") == 0) {
+					sortGnom(a, b, buffer, k);
+					desc(argv, buffer, k, qq);
+					return 0;
+				}
+
+				if (strcmp(argv[2], "/insert") == 0) {
+					Insert(a, b, buffer, k);
+					reout(argv, buffer, k, qq);
+					return 0;
+				}
+				
+				sortGnom(a, b, buffer, k);
+			
+				out(argv, buffer, k, b);
+				return 0;
+			}
+
+			if (argc == 4) {
+				if (strcmp(argv[2], "/descending") == 0 && (strcmp(argv[3], "/insert") == 0)) {
+					Insert(a, b, buffer, k);
+					desc(argv, buffer, k, qq);
+					return 0;
+				}
+
+				if (strcmp(argv[3], "/descending") == 0) {
+					sortGnom(a, b, buffer, k);
+					descending(argv, buffer, k, b);
+					return 0;
+				}
+				
+				if (strcmp(argv[3], "/insert") == 0) {
+					Insert(a, b, buffer, k);
+					out(argv, buffer, k, b);
+				}
+			}
+
+			if (argc == 5) {
+				if (strcmp(argv[3], "/descending") == 0 && (strcmp(argv[4], "/insert") == 0)) {
+					Insert(a, b, buffer, k);
+					descending(argv, buffer, k, b);
+					return 0;
+				}
+			}
+		return 0;
+	}
+}
